@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:weightSum="1">
     
 
 
@@ -27,6 +28,20 @@
         android:textStyle="italic"
         android:textSize="16sp"
         android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/tv_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/big_margin"
+        android:padding="@dimen/small_margin"
+        android:background="@color/grey_bg"
+        android:text="for better results opt for offline syncing"
+        android:textStyle="italic"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_gravity="bottom" />
+
 
 
 </LinearLayout>

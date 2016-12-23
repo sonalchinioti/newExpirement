@@ -1,6 +1,7 @@
 package com.android.project_x.activities;
 
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
@@ -37,6 +38,11 @@ public class HActivitySpeechToText extends HActivityAppCompatTrackable implement
     TextView tv_text_to_speech ;
 
 
+
+    @ViewById
+    TextView tv_setting ;
+
+
     private final int SPEECH_RECOGNITION_CODE = 100;
     private SpeechRecognizer speech = null;
     private Intent recognizerIntent;
@@ -47,7 +53,8 @@ public class HActivitySpeechToText extends HActivityAppCompatTrackable implement
     @AfterViews
     public void AfterViews(){
 
-
+         // method for setting click listener.
+        setSettingClickListener();
         //method for converting speech to text
         startSpeechToText();
 
@@ -161,7 +168,7 @@ public class HActivitySpeechToText extends HActivityAppCompatTrackable implement
                 message = "Audio recording error";
                 break;
             case SpeechRecognizer.ERROR_CLIENT:
-                message = "Client side error";
+                message = "Please opt for offline results";
                 break;
             case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS:
                 message = "Insufficient permissions";
@@ -189,5 +196,37 @@ public class HActivitySpeechToText extends HActivityAppCompatTrackable implement
                 break;
         }
         return message;
+    }
+
+    public void setSettingClickListener(){
+        tv_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callingVoiceRecognizationSetting();
+            }
+        });
+
+    }
+
+    public void callingVoiceRecognizationSetting(){
+
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        ComponentName[] components = new ComponentName[]{
+                new ComponentName("com.google.android.voicesearch", "com.google.android.voicesearch.VoiceSearchPreferences"),
+                new ComponentName("com.google.android.googlequicksearchbox", "com.google.android.voicesearch.VoiceSearchPreferences"),
+                new ComponentName("com.google.android.googlequicksearchbox", "com.google.android.apps.gsa.velvet.ui.settings.VoiceSearchPreferences")
+        };
+        for (ComponentName componentName : components) {
+            try {
+                intent.setComponent(componentName);
+                startActivity(intent);
+
+                break;
+            } catch (final Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
